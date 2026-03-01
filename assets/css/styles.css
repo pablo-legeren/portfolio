@@ -1,18 +1,50 @@
 /* Variables globales */
 :root {
-    --primary-color: #1e3d59;    /* Azul océano profundo */
-    --secondary-color: #2d5f7c;   /* Azul océano medio */
-    --text-color: #2c3e50;       /* Azul grisáceo oscuro */
-    --background-color: #f5f7fa;  /* Gris muy claro como las nubes */
+    --primary-color: #1e3d59;
+    --secondary-color: #2d5f7c;
+    --text-color: #2c3e50;
+    --background-color: #f5f7fa;
     --white: #ffffff;
-    --gray-100: #f8fafc;         /* Gris muy claro */
-    --gray-200: #e2e8f0;         /* Gris claro como nubes */
-    --gray-300: #cbd5e1;         /* Gris medio */
-    --gray-600: #475569;         /* Gris azulado */
-    --gray-800: #1e293b;         /* Azul muy oscuro */
+    --gray-100: #f8fafc;
+    --gray-200: #e2e8f0;
+    --gray-300: #cbd5e1;
+    --gray-600: #475569;
+    --gray-800: #1e293b;
     --section-spacing: 6rem;
-    --accent-color: #3498db;      /* Azul claro para acentos */
-    --hover-color: #2980b9;       /* Azul medio para hover */
+    --accent-color: #3498db;
+    --hover-color: #2980b9;
+    /* Dark mode nav */
+    --nav-scrolled-bg: rgba(255, 255, 255, 0.95);
+    --nav-scrolled-shadow: rgba(0, 0, 0, 0.1);
+    --nav-link-scrolled: #333;
+    --nav-link-scrolled-hover: #007bff;
+    /* Card / form contrast */
+    --card-bg: var(--white);
+    --input-bg: var(--gray-100);
+    --border-color: var(--gray-200);
+}
+
+/* ---- DARK MODE overrides ---- */
+[data-theme="dark"] {
+    --primary-color: #2e6b9e;
+    --secondary-color: #3a82bc;
+    --text-color: #d1dde8;
+    --background-color: #0f1923;
+    --white: #162230;
+    --gray-100: #1a2b3c;
+    --gray-200: #243a50;
+    --gray-300: #334f68;
+    --gray-600: #7fa3bf;
+    --gray-800: #b8d0e8;
+    --accent-color: #4aabee;
+    --hover-color: #3b95d4;
+    --nav-scrolled-bg: rgba(15, 25, 35, 0.97);
+    --nav-scrolled-shadow: rgba(0, 0, 0, 0.4);
+    --nav-link-scrolled: #d1dde8;
+    --nav-link-scrolled-hover: #4aabee;
+    --card-bg: #162230;
+    --input-bg: #1a2b3c;
+    --border-color: #243a50;
 }
 
 /* Menú inicial con blur */
@@ -31,8 +63,8 @@
 }
 
 .initial-menu.scrolled {
-    background-color: rgba(255, 255, 255, 0.95);
-    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+    background-color: var(--nav-scrolled-bg);
+    box-shadow: 0 2px 10px var(--nav-scrolled-shadow);
 }
 
 .initial-menu ul {
@@ -44,22 +76,31 @@
 }
 
 .initial-menu a {
-    color: #fff; /* Color blanco por defecto */
+    color: var(--primary-color);
     text-decoration: none;
     font-weight: 500;
     transition: color 0.3s ease;
 }
 
 .initial-menu a:hover {
-    color: rgba(255, 255, 255, 0.8); /* Efecto hover más suave en blanco */
+    color: var(--secondary-color);
+}
+
+/* Modo oscuro: nav blanco sobre foto de noche */
+[data-theme="dark"] .initial-menu a {
+    color: #fff;
+}
+
+[data-theme="dark"] .initial-menu a:hover {
+    color: rgba(255, 255, 255, 0.8);
 }
 
 .initial-menu.scrolled a {
-    color: #333; /* Color oscuro cuando la barra está scrolled */
+    color: var(--nav-link-scrolled);
 }
 
 .initial-menu.scrolled a:hover {
-    color: #007bff; /* Color azul al hover cuando la barra está scrolled */
+    color: var(--nav-link-scrolled-hover);
 }
 
 /* Welcome Screen */
@@ -176,27 +217,65 @@ section:nth-child(even) {
     align-items: center;
     justify-content: center;
     text-align: center;
-    color: var(--white);
-    background-image: url('fondo.jpg');
+    background-image: url('../images/fondo.jpg');
     background-size: cover;
     background-position: center;
+    overflow: hidden;
     padding-top: 4rem;
+    transition: background-image 0.4s ease;
 }
 
+[data-theme="dark"] .hero {
+    background-image: url('../images/fondo noche.jpg');
+}
+
+/* Overlay: muy ligero en modo claro, más oscuro en modo oscuro */
 .background-overlay {
     position: absolute;
     top: 0;
     left: 0;
     right: 0;
     bottom: 0;
-    background-color: rgba(0, 0, 0, 0.5);
+    background-color: rgba(255, 255, 255, 0.15);
+    z-index: 1;
+    transition: background-color 0.4s ease;
+}
+
+[data-theme="dark"] .background-overlay {
+    background-color: rgba(0, 0, 0, 0.45);
 }
 
 .hero-content {
     position: relative;
-    z-index: 1;
+    z-index: 2;
     max-width: 800px;
     padding: 2rem;
+}
+
+/* Modo claro: texto oscuro sobre foto de día */
+.hero h1,
+.hero .job-title,
+.hero .social-links a {
+    color: var(--primary-color);
+    text-shadow: 0 1px 4px rgba(255, 255, 255, 0.6);
+}
+
+.hero .social-links a:hover {
+    opacity: 0.7;
+    transform: translateY(-3px);
+}
+
+/* Modo oscuro: texto blanco sobre foto de noche */
+[data-theme="dark"] .hero h1,
+[data-theme="dark"] .hero .job-title,
+[data-theme="dark"] .hero .social-links a {
+    color: #fff;
+    text-shadow: 0 2px 8px rgba(0, 0, 0, 0.7);
+}
+
+[data-theme="dark"] .hero .social-links a:hover {
+    opacity: 0.75;
+    transform: translateY(-3px);
 }
 
 .hero h1 {
@@ -222,9 +301,8 @@ section:nth-child(even) {
 }
 
 .social-links a {
-    color: var(--white);
     text-decoration: none;
-    transition: transform 0.3s ease, color 0.3s ease;
+    transition: transform 0.3s ease, opacity 0.3s ease;
 }
 
 .social-links a:hover {
@@ -595,6 +673,8 @@ section:nth-child(even) {
 .experience-item:nth-child(1) { transition-delay: 0.2s; }
 .experience-item:nth-child(2) { transition-delay: 0.4s; }
 .experience-item:nth-child(3) { transition-delay: 0.6s; }
+.experience-item:nth-child(4) { transition-delay: 0.8s; }
+.experience-item:nth-child(5) { transition-delay: 1.0s; }
 
 .profile-card {
     display: grid;
@@ -781,6 +861,7 @@ section:nth-child(even) {
     margin-bottom: 1.5rem;
     border-bottom: 2px solid var(--primary-color);
     padding-bottom: 1rem;
+    padding-right: 9rem;
 }
 
 .experience-header h3 {
@@ -797,13 +878,21 @@ section:nth-child(even) {
 }
 
 .experience-period {
-    display: inline-block;
+    position: absolute;
+    top: 1.5rem;
+    right: 1.5rem;
     color: var(--white);
     font-weight: 500;
-    font-size: 0.9rem;
+    font-size: 0.85rem;
     background-color: var(--primary-color);
-    padding: 0.5rem 1rem;
+    padding: 0.4rem 0.9rem;
     border-radius: 2rem;
+    white-space: nowrap;
+    z-index: 1;
+}
+
+.experience-period.current {
+    background-color: #059669;
 }
 
 .experience-achievements {
@@ -845,6 +934,17 @@ section:nth-child(even) {
     .education-content h3,
     .experience-header h3 {
         font-size: 1.25rem;
+    }
+
+    .experience-period {
+        font-size: 0.75rem;
+        padding: 0.3rem 0.7rem;
+        top: 1rem;
+        right: 1rem;
+    }
+
+    .experience-header {
+        padding-right: 7rem;
     }
 }
 
@@ -936,8 +1036,8 @@ section:nth-child(even) {
 
 .download-btn {
     background-color: transparent;
-    border: 2px solid var(--white);
-    color: var(--white);
+    border: 2px solid var(--primary-color);
+    color: var(--primary-color);
     font-size: 1rem;
     padding: 0.75rem 1.5rem;
     border-radius: 2rem;
@@ -948,10 +1048,21 @@ section:nth-child(even) {
 }
 
 .download-btn:hover {
-    background-color: var(--white);
-    color: var(--text-color);
+    background-color: var(--primary-color);
+    color: #fff;
     transform: translateY(-2px);
-    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.15);
+}
+
+/* Modo oscuro: botón blanco sobre foto de noche */
+[data-theme="dark"] .download-btn {
+    border-color: #fff;
+    color: #fff;
+}
+
+[data-theme="dark"] .download-btn:hover {
+    background-color: #fff;
+    color: var(--primary-color);
 }
 
 .download-btn i {
@@ -977,4 +1088,232 @@ section:nth-child(even) {
 .info-list,
 .info-tag {
     display: none;
+}
+
+/* ================================================================
+   LANGUAGE TOGGLE
+   ================================================================ */
+
+.lang-toggle {
+    display: flex;
+    align-items: center;
+    position: absolute;
+    right: 1.5rem;
+    background: rgba(255, 255, 255, 0.15);
+    border: 1.5px solid rgba(255, 255, 255, 0.35);
+    border-radius: 50px;
+    padding: 3px;
+    gap: 2px;
+    flex-shrink: 0;
+    transition: background 0.3s, border-color 0.3s;
+}
+
+.lang-option {
+    display: flex;
+    align-items: center;
+    gap: 5px;
+    padding: 4px 11px;
+    border: none;
+    background: transparent;
+    border-radius: 50px;
+    cursor: pointer;
+    color: rgba(255, 255, 255, 0.65);
+    font-size: 0.78rem;
+    font-weight: 700;
+    letter-spacing: 0.03em;
+    transition: background 0.2s, color 0.2s;
+    white-space: nowrap;
+}
+
+.lang-option:hover {
+    color: #fff;
+    background: rgba(255, 255, 255, 0.12);
+}
+
+.lang-option.active {
+    background: rgba(255, 255, 255, 0.28);
+    color: #fff;
+}
+
+.flag-img {
+    width: 24px;
+    height: 18px;
+    border-radius: 3px;
+    object-fit: cover;
+    display: block;
+    flex-shrink: 0;
+}
+
+/* When nav is scrolled */
+.initial-menu.scrolled .lang-toggle {
+    background: rgba(30, 61, 89, 0.08);
+    border-color: rgba(30, 61, 89, 0.22);
+}
+
+.initial-menu.scrolled .lang-option {
+    color: var(--gray-600);
+}
+
+.initial-menu.scrolled .lang-option:hover {
+    color: var(--primary-color);
+    background: rgba(30, 61, 89, 0.08);
+}
+
+.initial-menu.scrolled .lang-option.active {
+    background: var(--primary-color);
+    color: #fff;
+}
+
+/* Responsive: hide label code on small screens */
+@media (max-width: 600px) {
+    .lang-toggle {
+        margin-left: 0.5rem;
+    }
+
+    .lang-option {
+        padding: 4px 6px;
+    }
+}
+
+/* ================================================================
+   DARK / LIGHT MODE TOGGLE BUTTON
+   ================================================================ */
+
+/* Smooth colour transitions sitewide */
+body,
+section,
+.initial-menu,
+.project-card,
+.education-content,
+.experience-content,
+.contact-form-container,
+.form-group input,
+.form-group textarea,
+.skill-tag,
+#chat-window,
+#chat-messages,
+#chat-input-area {
+    transition: background-color 0.35s ease, color 0.35s ease, border-color 0.35s ease;
+}
+
+/* Button */
+.theme-toggle-btn {
+    position: absolute;
+    left: 1.5rem;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 36px;
+    height: 36px;
+    border-radius: 50%;
+    border: 1.5px solid rgba(255, 255, 255, 0.35);
+    background: rgba(255, 255, 255, 0.15);
+    color: #fff;
+    font-size: 1rem;
+    cursor: pointer;
+    transition: background 0.25s, border-color 0.25s, color 0.25s, transform 0.2s;
+    flex-shrink: 0;
+}
+
+.theme-toggle-btn:hover {
+    background: rgba(255, 255, 255, 0.28);
+    transform: scale(1.1) rotate(15deg);
+}
+
+/* Scrolled nav */
+.initial-menu.scrolled .theme-toggle-btn {
+    border-color: rgba(30, 61, 89, 0.22);
+    background: rgba(30, 61, 89, 0.08);
+    color: var(--gray-600);
+}
+
+.initial-menu.scrolled .theme-toggle-btn:hover {
+    background: var(--primary-color);
+    color: #fff;
+}
+
+/* Dark mode scrolled nav overrides */
+[data-theme="dark"] .initial-menu.scrolled .theme-toggle-btn {
+    border-color: rgba(74, 171, 238, 0.25);
+    background: rgba(74, 171, 238, 0.1);
+    color: var(--accent-color);
+}
+
+[data-theme="dark"] .initial-menu.scrolled .theme-toggle-btn:hover {
+    background: var(--accent-color);
+    color: #fff;
+}
+
+/* ================================================================
+   DARK MODE – explicit overrides for hardcoded colours
+   ================================================================ */
+
+/* Input / Textarea text colour (browser default is black) */
+.form-group input,
+.form-group textarea {
+    color: var(--text-color);
+}
+
+/* Dark mode — form validation states */
+[data-theme="dark"] .form-group input.error,
+[data-theme="dark"] .form-group textarea.error {
+    border-color: #f87171;
+    background-color: #2a1a1a;
+}
+
+[data-theme="dark"] .form-group input.valid,
+[data-theme="dark"] .form-group textarea.valid {
+    border-color: #34d399;
+    background-color: #0f2a1e;
+}
+
+[data-theme="dark"] .error-message {
+    color: #f87171;
+}
+
+/* Alternating section backgrounds adapt via variables automatically,
+   but we override the section selector rule here for dark mode clarity */
+[data-theme="dark"] section:nth-child(odd) {
+    background-color: var(--white);
+}
+
+[data-theme="dark"] section:nth-child(even) {
+    background-color: var(--gray-100);
+}
+
+/* Project cards border in dark mode */
+[data-theme="dark"] .project-card {
+    border: 1px solid var(--gray-200);
+}
+
+/* Nav scrolled dark mode (lang toggle) */
+[data-theme="dark"] .initial-menu.scrolled .lang-toggle {
+    background: rgba(74, 171, 238, 0.08);
+    border-color: rgba(74, 171, 238, 0.22);
+}
+
+[data-theme="dark"] .initial-menu.scrolled .lang-option:hover {
+    color: var(--accent-color);
+    background: rgba(74, 171, 238, 0.1);
+}
+
+[data-theme="dark"] .initial-menu.scrolled .lang-option.active {
+    background: var(--accent-color);
+    color: #fff;
+}
+
+/* Contact form box-shadow in dark mode */
+[data-theme="dark"] .contact-form-container {
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.4);
+}
+
+/* Fix low-contrast text elements in dark mode */
+[data-theme="dark"] .experience-achievements li::before {
+    color: var(--accent-color);
+}
+
+@media (max-width: 480px) {
+    .theme-toggle-btn {
+        left: 1rem;
+    }
 }
